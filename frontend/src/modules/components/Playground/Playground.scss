@@ -1,0 +1,15 @@
+.playground {
+    width: 70vmin;
+    height: 70vmin;
+    display: flex;
+}
+
+.grid {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    grid-template-columns: repeat(var(--grid-size, 5), 1fr);
+    grid-template-rows: repeat(var(--grid-size, 5), 1fr);
+    grid-row-gap: 1em;
+    grid-column-gap: 1em;
+}
