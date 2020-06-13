@@ -1,24 +1,24 @@
 const HttpStatus = require('http-status-codes');
 const Keyv = require('keyv');
-// const { KeyvFile } = require('keyv-file');
+const { KeyvFile } = require('keyv-file');
 
-// const debugFileStore = (namespace) => ({
-//   store: new KeyvFile({
-//     filename: `${__dirname}/../tmp/${namespace}.json`,
-//     encode: JSON.stringify,
-//     decode: JSON.parse,
-//   }),
-//   namespace,
-// });
+const debugFileStore = (namespace) => ({
+  store: new KeyvFile({
+    filename: `${__dirname}/../tmp/${namespace}.json`,
+    // encode: JSON.stringify,
+    // decode: JSON.parse,
+  }),
+  namespace,
+});
 
 
-// const userStore = new Keyv(debugFileStore('userStore'));
-// const gameStore = new Keyv(debugFileStore('gameStore'));
-// const scoreStore = new Keyv(debugFileStore('scoreStore'));
+const userStore = new Keyv(debugFileStore('userStore'));
+const gameStore = new Keyv(debugFileStore('gameStore'));
+const scoreStore = new Keyv(debugFileStore('scoreStore'));
 
-const userStore = new Keyv({ namespace: 'userStore' });
-const gameStore = new Keyv({ namespace: 'gameStore' });
-const scoreStore = new Keyv({ namespace: 'scoreStore' });
+// const userStore = new Keyv({ namespace: 'userStore' });
+// const gameStore = new Keyv({ namespace: 'gameStore' });
+// const scoreStore = new Keyv({ namespace: 'scoreStore' });
 
 function store(req, res, next) {
   req.userStore = userStore;
