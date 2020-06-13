@@ -1,4 +1,4 @@
 export default {
     loginPage: '/',
-    playground: '/playground/:token',
+    gameBoard: '/game-board/:token',
 }

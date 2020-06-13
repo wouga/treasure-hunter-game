@@ -1,29 +1,34 @@
 import React, { useEffect, useState } from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, generatePath } from 'react-router-dom';
+
 import Fade from '@material-ui/core/Fade';
 
 import routes from '../routes';
 
+import { RootState } from '../../../redux/reducers';
 import { typeName, login } from '../../../redux/actions';
+
 import { SendButton } from './SendButton';
 
+
 import './LoginPage.scss';
-import { RootState } from '../../../redux/reducers';
 
 const fadeTimeout = 1e3;
 
 export const LoginPage = () => {
     const history = useHistory();
     const [showForm, setShowForm] = useState(false);
+
+    const dispatch = useDispatch();
     const {
         name, error, token, isFetching
     } = useSelector((state: RootState) => state.setGame);
-    const dispatch = useDispatch();
 
     useEffect(() => {
         if ((token && !error)) {
-            const path = generatePath(routes.playground, { token })
+            const path = generatePath(routes.gameBoard, { token })
 
             setShowForm(false);
             setTimeout(() => history.push(path), fadeTimeout);

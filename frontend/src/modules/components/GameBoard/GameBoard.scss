@@ -1,4 +1,4 @@
-.playground {
+.game-board {
     width: 70vmin;
     height: 70vmin;
     display: flex;
@@ -12,4 +12,10 @@
     grid-template-rows: repeat(var(--grid-size, 5), 1fr);
     grid-row-gap: 1em;
     grid-column-gap: 1em;
+}
+
+.check-btn-wrapper {
+    display: block;
+    margin-top: 15px;
+    min-height: 42px;
 }

@@ -14,15 +14,6 @@ app.use(morgan('dev'));
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
-
-app.get('/', (req, res) => {
-    res.status(403)
-    res.json({
-        message: 'Nothing for you'
-    });
-});
-
-
 app.use(middlewares.store);
 
 app.use('/api/v1', api);

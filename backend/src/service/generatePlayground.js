@@ -1,77 +1,171 @@
-class GeneratePlayground {
-    constructor(gridSize = 5) {
-        this.gridSize = gridSize < 2 ? 2 : gridSize;
-        this.treasures = Math.ceil(this.gridSize / 2);
-        this.treasureMark = "T";
-        this.maximumProximity = this.gridSize - 2;
-        this.minimumProximity = 0;
-        this.playground = null;
-        this.generate();
-        this.hideTreasures();
-        this.calcProximity();
+const randomInt = (from, to) => {
+  const min = Math.ceil(from);
+  const max = Math.floor(to);
+
+  return Math.floor(Math.random() * (max - min)) + min;
+};
+
+const defaultGridSize = 5;
+
+const initOptionsGame = {
+  gridSize: defaultGridSize,
+  treasureMark: 'T',
+  minimumProximity: 1,
+  treasures: (gridSize) => Math.ceil(gridSize / 2),
+  maximumProximity: (gridSize) => gridSize - 2,
+
+};
+
+class GameBoardGenerator {
+  constructor(options = {}, gameBoard = null) {
+    this.setGameProps(options);
+    this.gameBoard = gameBoard;
+  }
+
+  set(gameBoard) {
+    this.gameBoard = gameBoard;
+  }
+
+  create() {
+    this.gameBoard = [...Array(this.gridSize)].map(() => [...Array(this.gridSize)].fill(null));
+  }
+
+  generate() {
+    this.create();
+    this.hideTreasures();
+    this.calcProximity();
+    return this;
+  }
+
+  get() {
+    return this.gameBoard;
+  }
+
+  getGameProps() {
+    return {
+      gridSize: this.gridSize,
+      maximumProximity: this.maximumProximity,
+      minimumProximity: this.minimumProximity,
+      treasures: this.treasures,
+      treasureMark: this.treasureMark,
+    };
+  }
+
+
+  allTreasuresDiscovered() {
+    return this.gameBoard
+      .flat()
+      .filter((cell) => cell.revealed && cell.proximity === this.treasureMark)
+      .length === this.treasures;
+  }
+
+  getRevealedFields() {
+    return this.get()
+      .map((col) => col
+        .map((cell) => (cell && cell.revealed
+          ? ({ ...cell })
+          : ({ revealed: false })
+        )));
+  }
+
+  hideTreasures() {
+    let hiddenTreasuresQty = 0;
+    if (!this.gameBoard) {
+      throw new Error('You have to generate gameBoard');
     }
 
-    generate() {
-        this.playground = [...Array(this.gridSize)].map(y => [...Array(this.gridSize)].fill(null));
-    }
+    do {
+      const x = randomInt(0, this.gridSize);
+      const y = randomInt(0, this.gridSize);
+      if (!this.gameBoard[x][y]) {
+        this.gameBoard[x][y] = {
+          proximity: this.treasureMark,
+        };
+        hiddenTreasuresQty += 1;
+      }
+    } while (hiddenTreasuresQty < this.treasures);
 
-    hideTreasures() {
-        let hiddenTreasuresQty = 0;
-        if (!this.playground) {
-            throw new Error("You have to generate playground");
-        }
+    return this;
+  }
 
-        do {
-            const x = this.randomInt(0, this.gridSize);
-            const y = this.randomInt(0, this.gridSize);
-            if (!this.playground[x][y]) {
-                this.playground[x][y] = this.treasureMark;
-                hiddenTreasuresQty++;
+  calcProximity() {
+    const iterations = this.maximumProximity + 1;
+
+    [...Array(iterations)]
+      .map((_, p) => iterations - 1 - p)
+      .forEach((proximity) => this.gameBoard
+        .forEach((col, idx) => col
+          .forEach((_, idy) => {
+            if (this.canSpecifyProximity(idx, idy, proximity, iterations)) {
+              this.gameBoard[idx][idy] = { proximity };
             }
-        } while (hiddenTreasuresQty < this.treasures);
+          })));
+
+    return this;
+  }
+
+  canSpecifyProximity(idx, idy, proximity, iterations) {
+    const wantedNeightbor = proximity === iterations - 1
+      ? this.treasureMark
+      : proximity + 1;
+
+    return !this.gameBoard[idx][idy]
+      && (proximity <= this.minimumProximity
+        || this.getNeighbors(idx, idy).includes(wantedNeightbor)
+      );
+  }
+
+  getNeighbors(x, y) {
+    const neighbors = [];
+    if (x > 0) {
+      neighbors.push(this.gameBoard[x - 1][y]);
+    }
+    if (x < this.gridSize - 1) {
+      neighbors.push(this.gameBoard[x + 1][y]);
+    }
+    if (y > 0) {
+      neighbors.push(this.gameBoard[x][y - 1]);
+    }
+    if (y < this.gridSize - 1) {
+      neighbors.push(this.gameBoard[x][y + 1]);
     }
 
-    calcProximity() {
-        const iterations = this.maximumProximity + 1;
-        [...Array(iterations)]
-        .map((_, p) => iterations - 1 - p)
-            .forEach(proximity => this.playground
-                .forEach((col, idx) => col
-                    .forEach((cell, idy) => {
-                        const wantedNeightbor = proximity === iterations - 1 ?
-                            this.treasureMark :
-                            proximity + 1;
-                        if (!cell &&
-                            (this.getNeighbors(idx, idy).includes(wantedNeightbor) || proximity <= this.minimumProximity)) {
-                            this.playground[idx][idy] = proximity;
-                        }
+    return neighbors.filter((i) => !!i).map(({ proximity }) => proximity);
+  }
 
-                    })))
+  digHole({ x, y }) {
+    try {
+      this.gameBoard[x][y].revealed = true;
+    } catch (error) {
+      throw new Error('Invalid Range!');
     }
+  }
 
-    getNeighbors(x, y) {
-        const neighbors = [];
-        if (x > 0) {
-            neighbors.push(this.playground[x - 1][y]);
-        }
-        if (x < this.gridSize - 1) {
-            neighbors.push(this.playground[x + 1][y]);
-        }
-        if (y > 0) {
-            neighbors.push(this.playground[x][y - 1]);
-        }
-        if (y < this.gridSize - 1) {
-            neighbors.push(this.playground[x][y + 1]);
-        }
-        return neighbors;
-    }
+  setGameProps(options) {
+    const {
+      treasureMark,
+      minimumProximity,
+      gridSize,
+      treasures,
+      maximumProximity,
+    } = {
+      ...initOptionsGame,
+      ...options,
+    };
 
-    randomInt(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min)) + min;
-    }
+    this.gridSize = gridSize < 2 ? 2 : gridSize;
 
+    this.treasures = typeof treasures === 'function'
+      ? treasures(this.gridSize)
+      : treasures;
+
+    this.maximumProximity = typeof maximumProximity === 'function'
+      ? maximumProximity(this.gridSize)
+      : maximumProximity;
+
+    this.treasureMark = treasureMark;
+    this.minimumProximity = minimumProximity;
+  }
 }
 
-console.table(new GeneratePlayground().playground);
+module.exports = GameBoardGenerator;
