@@ -2,17 +2,18 @@ import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk'
 
 import { RootState } from './../reducers'
-import { TypeNameAction, ReceiveTokenAction, RequestTokenAction, FailTokenAction, ITokenData } from './setGame.interface';
+import { TypeNameAction, ReceiveTokenAction, RequestTokenAction, FailTokenAction, ITokenData, LogoutAction } from './setGame.interface';
 import { fetch, errorHedler } from '../../libs/fetch.helper';
 
 export const TYPE_NAME = "TYPE_NAME";
 export const REQUEST_TOKEN = "REQUEST_TOKEN";
 export const RECEIVE_TOKEN = "RECEIVE_TOKEN";
 export const FAIL_TOKEN = "FAIL_TOKEN";
+export const LOGOUT = "LOGOUT";
 
 type IAsyncAction = ThunkAction<void, RootState, unknown, Action<string>>;
 
-export type SetGameActionTypes = TypeNameAction | ReceiveTokenAction | RequestTokenAction | FailTokenAction;
+export type SetGameActionTypes = TypeNameAction | ReceiveTokenAction | RequestTokenAction | FailTokenAction | LogoutAction;
 
 export const typeName = (name: string): TypeNameAction => ({
     type: TYPE_NAME,
@@ -29,6 +30,10 @@ export const login = (
         .then(data => dispatch(receiveToken(name, data)))
         .catch(error => dispatch(failToken(name, error.toString())))
 }
+
+export const logout = (): LogoutAction => ({
+    type: LOGOUT,
+});
 
 export const receiveToken = (
     name: string,

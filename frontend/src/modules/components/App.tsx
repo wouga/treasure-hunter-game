@@ -6,15 +6,17 @@ import routes from './routes';
 import { LoginPage } from './LoginPage/LoginPage';
 import { GameBoard } from './GameBoard/GameBoard';
 
+import './App.scss';
+
 const App = () => {
   return (
-    <Router basename={basename}>
-      <Switch>
-        <Route path={routes.loginPage} exact={true} component={LoginPage} />
-        <Route path={routes.gameBoard} component={GameBoard} />
-        <Redirect to={routes.loginPage} />
-      </Switch>
-    </Router>
+      <Router basename={basename}>
+        <Switch>
+          <Route path={routes.loginPage} exact={true} component={LoginPage} />
+          <Route path={routes.gameBoard} component={GameBoard} />
+          <Redirect to={routes.loginPage} />
+        </Switch>
+      </Router>
   );
 }
 

@@ -6,7 +6,7 @@ import './InfoScreen.scss';
 export interface IInfoScreen {
     show?: boolean,
     timeout?: number;
-    text?: string | null;
+    text?: React.ReactNode | string | null;
 }
 
 export const InfoScreen: React.FC<IInfoScreen> = ({

@@ -1,4 +1,4 @@
-import { TYPE_NAME, REQUEST_TOKEN, RECEIVE_TOKEN, FAIL_TOKEN } from "./setGame.actions";
+import { TYPE_NAME, REQUEST_TOKEN, RECEIVE_TOKEN, FAIL_TOKEN, LOGOUT } from "./setGame.actions";
 
 export interface ITokenData {
     token: string;
@@ -26,4 +26,8 @@ export interface FailTokenAction {
     name: string;
     error: string;
     receivedAt: number;
+}
+
+export interface LogoutAction {
+    type: typeof LOGOUT;
 }

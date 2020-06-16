@@ -77,6 +77,8 @@ class GameBoardGenerator {
     do {
       const x = randomInt(0, this.gridSize);
       const y = randomInt(0, this.gridSize);
+      // const x = randomInt(0, 3);
+      // const y = randomInt(0, 0);
       if (!this.gameBoard[x][y]) {
         this.gameBoard[x][y] = {
           proximity: this.treasureMark,

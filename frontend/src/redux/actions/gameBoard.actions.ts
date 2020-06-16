@@ -14,6 +14,9 @@ import {
     RequestDiscoverAction,
     ReceiveDiscoverAction,
     FailDiscoverAction,
+    StartAgainAction,
+    IDiscoverData,
+    ToggleAboutGameModalAction,
 } from './gameBoard.interface';
 
 export const REQUEST_GAME = "REQUEST_GAME";
@@ -24,6 +27,8 @@ export const BURY_HOLE = "BURY_HOLE";
 export const REQUEST_DISCOVER = "REQUEST_DISCOVER";
 export const RECEIVE_DISCOVER = "RECEIVE_DISCOVER";
 export const FAIL_DISCOVER = "FAIL_DISCOVER";
+export const START_AGAIN = "START_AGAIN";
+export const TOGGLE_ABOUT_GAME_MODAL = "TOGGLE_ABOUT_GAME_MODAL";
 
 type IAsyncAction = ThunkAction<void, RootState, unknown, Action<string>>;
 
@@ -35,7 +40,9 @@ export type GameBoardActionTypes =
     BuryHoleAction |
     RequestDiscoverAction |
     ReceiveDiscoverAction |
-    FailDiscoverAction;
+    FailDiscoverAction |
+    ToggleAboutGameModalAction |
+    StartAgainAction;
 
 
 export const startGame = (
@@ -83,6 +90,10 @@ export const buryHole = (position: IPosition): BuryHoleAction => ({
     position
 });
 
+export const toggleAboutGameModal = (): ToggleAboutGameModalAction => ({
+    type: TOGGLE_ABOUT_GAME_MODAL,
+});
+
 
 export const discover = (
     token: string,
@@ -98,7 +109,7 @@ export const discover = (
 }
 
 export const receiveDiscover = (
-    data: IStartGameData,
+    data: IDiscoverData,
 ): ReceiveDiscoverAction => ({
     type: RECEIVE_DISCOVER,
     receivedAt: Date.now(),
@@ -121,4 +132,23 @@ export const requestDiscover = (
     type: REQUEST_DISCOVER,
     token,
     holes,
-})
+});
+
+
+export const startAgain = (
+    token: string
+): IAsyncAction => async dispatch => {
+    await dispatch({
+        type: START_AGAIN,
+        token,
+    });
+    startGame(token);
+};
+
+export const resetGame = (
+): IAsyncAction => async dispatch => {
+    await dispatch({
+        type: START_AGAIN,
+    });
+};
+

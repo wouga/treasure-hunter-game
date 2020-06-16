@@ -16,18 +16,22 @@ export const errorHedler = (resp: Response) => {
 
 interface IFetchProps extends RequestInit {
     path: string;
-    data: object;
+    data?: object;
 }
 
 export const fetch: <T>(props: IFetchProps) => Promise<Response> =
     ({ path, data = {}, headers, ...restProps }) => crossFetch(`${ENDPOINT}/${path}`, {
         method: 'POST',
-        body: JSON.stringify(data),
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             ...headers,
         },
+        ...(
+            !['GET', 'HEAD'].includes(restProps.method || 'POST')
+                ? ({ body: JSON.stringify(data) })
+                : {}
+        ),
         ...restProps,
 
     });

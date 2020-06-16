@@ -4,6 +4,7 @@ import {
     RECEIVE_TOKEN,
     FAIL_TOKEN,
     SetGameActionTypes,
+    LOGOUT,
 } from '../actions'
 import { SetGameState } from '../types';
 
@@ -23,6 +24,11 @@ export const setGame = (
             return {
                 ...state,
                 name: action.name,
+            };
+        case LOGOUT:
+            return {
+                ...state,
+                ...initialState,
             };
         case REQUEST_TOKEN:
             return {

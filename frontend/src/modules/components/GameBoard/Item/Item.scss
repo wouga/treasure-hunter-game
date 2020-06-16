@@ -1,7 +1,7 @@
 @mixin shine {
+    content: "";
     animation: shine 5s ease-in-out infinite;
     animation-fill-mode: forwards;
-    content: "";
     position: absolute;
     top: -110%;
     left: -210%;
@@ -24,12 +24,7 @@
     cursor: pointer;
     transition: all 0.3s ease;
     background: linear-gradient(to bottom right, #484848 0%, #212121 100%);
-    &.proximity-2,
-    &.proximity-T,
-    &.proximity-3,
-    &.proximity-1 {
-        pointer-events: none;
-    }
+
     &.proximity-2 {
         background: linear-gradient(to bottom right, #ffdd4b 0%, #c67c00 100%);
         fill: rgb(44, 41, 41);
@@ -51,6 +46,14 @@
         background: linear-gradient(to bottom right, #ffff52 0%, #c7a500 100%);
         fill: black;
     }
+
+    &.proximity-2,
+    &.proximity-T,
+    &.proximity-3,
+    &.proximity-1 {
+        pointer-events: none;
+    }
+    
     > div {
         background-color: #121212;
         width: calc(100% - 8px);
@@ -63,9 +66,10 @@
             height: 0;
         }
     }
-    &:hover,
+    &:hover:not(.digged) {
+        transform: scale(1.1);
+    }
     &.digged {
-        transform: scale(1.05);
         > div {
             background-color: transparent;
             text-align: center;

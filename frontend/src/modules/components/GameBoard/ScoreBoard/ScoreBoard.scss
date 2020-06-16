@@ -1,0 +1,22 @@
+.score-board {
+    width: 50%;
+    min-width: 320px;;
+    margin: 0 auto;
+
+    h5 {
+        margin: 0;
+    }
+
+    ul li {
+        border-bottom: 1px solid #919191;
+        text-align: left;
+        > div {
+            font-size: 25px;
+            color: white;
+            > * {
+                color: white;
+            }
+        }
+      
+    }
+}

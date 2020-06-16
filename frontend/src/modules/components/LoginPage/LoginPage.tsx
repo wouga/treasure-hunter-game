@@ -1,69 +1,46 @@
-import React, { useEffect, useState } from 'react';
-
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, generatePath } from 'react-router-dom';
-
-import Fade from '@material-ui/core/Fade';
-
-import routes from '../routes';
-
-import { RootState } from '../../../redux/reducers';
-import { typeName, login } from '../../../redux/actions';
+import React, { useEffect, useRef } from 'react';
 
 import { SendButton } from './SendButton';
-
+import { useLoginPage } from './useLoginPage';
+import { InfoScreen } from '../InfoScreen/InfoScreen';
 
 import './LoginPage.scss';
 
-const fadeTimeout = 1e3;
 
-export const LoginPage = () => {
-    const history = useHistory();
-    const [showForm, setShowForm] = useState(false);
-
-    const dispatch = useDispatch();
+export const LoginPage: React.FC = () => {
+    const inputRef = useRef<HTMLInputElement>(null);
     const {
-        name, error, token, isFetching
-    } = useSelector((state: RootState) => state.setGame);
+        showForm, handleSubmit, hamdleInputChange,
+        isFetching, error, name,
+    } = useLoginPage();
+
+
 
     useEffect(() => {
-        if ((token && !error)) {
-            const path = generatePath(routes.gameBoard, { token })
-
-            setShowForm(false);
-            setTimeout(() => history.push(path), fadeTimeout);
-        } else {
-            setShowForm(true);
-        }
-    }, [token, error])
-
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-
-        if (!name || isFetching) {
-            return null;
-        }
-
-        dispatch(login(name));
-    }
+        inputRef?.current?.focus();
+    });
 
     return (
-        <Fade in={showForm} timeout={fadeTimeout}>
+        <>
+            <h1 className="game-title">Treasure Hunter Game</h1>
             <div className="login-page">
                 <form onSubmit={handleSubmit}>
                     <label>To start the game,</label>
                     <div className="input-wrapper">
                         <input
+                            ref={inputRef}
                             spellCheck="false"
                             value={name}
-                            onChange={(e) => dispatch(typeName(e.target.value))}
+                            onChange={hamdleInputChange}
                             placeholder="enter your name..."
                         />
                         <SendButton disabled={!name || isFetching} />
                     </div>
-                    <p className="input-error">{error}</p>
+                    <p className="input-error">
+                        {error} {(!showForm || isFetching) && !error && "Loading..."}
+                    </p>
                 </form>
             </div>
-        </Fade>
+        </>
     );
 }

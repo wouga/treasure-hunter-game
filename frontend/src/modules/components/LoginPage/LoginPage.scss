@@ -39,18 +39,40 @@
             color: #8c8c8c;
         }
     }
-}
+    .icon-button {
+        svg {
+            width: 7em;
+            height: 7em;
+            fill: #1f1f1f;
+        }
+    }
 
-.icon-button {
-    svg {
-        width: 7em;
-        height: 7em;
-        fill: #1f1f1f;
+    .input-error {
+        color: #af4448;
+        min-height: 19px;
+    }
+    @media (max-width: 960px) {
+        max-width: none;
+        padding: 15px;
+
+        input {
+            font-size: 25px;
+            width: 100%;
+        }
+        .icon-button {
+            svg {
+                width: 4em;
+                height: 4em;
+            }
+        }
     }
 }
 
-.input-error {
-    color: #af4448;
-    min-height: 19px;
-    ;
+.game-title {
+    position: absolute;
+    color: #919191;
+    top: 0;
+    width: 100%;
+    text-align: center;
+    margin: 15px 0;
 }
