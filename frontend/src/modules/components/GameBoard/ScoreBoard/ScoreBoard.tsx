@@ -20,7 +20,7 @@ export const ScoreBoard: React.FC<IScoreBoard> = ({
                     scores.map((score, idx) => (
                         <ListItem key={idx}>
                             <ListItemIcon>#{score.place}</ListItemIcon>
-                            <ListItemText primary={score.name} secondary={`${score.score} points`} />
+                            <ListItemText primary={score.name} secondary={`points: ${score.score}`} />
                         </ListItem>
                     ))
                 }

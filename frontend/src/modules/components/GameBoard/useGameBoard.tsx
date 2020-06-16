@@ -1,14 +1,16 @@
 import { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams, generatePath } from "react-router-dom";
+
 import {
     RootState, startGame, IPosition, digHole,
     buryHole, resetGame, logout, discover, ICell
 } from "../../../redux";
+import routes from "../routes";
+
 import { useAboutGame } from "./AboutGame/useAboutGame";
 import { setVar } from "../../../libs/css-vars";
 import { samePosition } from "../../../libs/game.helper";
-import routes from "../routes";
 
 const path = generatePath(routes.loginPage);
 
@@ -34,9 +36,8 @@ export const useGameBoard: IUseGameBoard = () => {
     const history = useHistory();
     const { token } = useParams();
     const {
-        board, error,
+        board, error, score,
         gridSize = 5, holes = [], win = false,
-        score,
     } = useSelector((state: RootState) => state.gameBoard);
 
     const { open: isModalOpen, toggleModal } = useAboutGame();
@@ -62,8 +63,8 @@ export const useGameBoard: IUseGameBoard = () => {
         if (!isDigged(position)) {
             return dispatch(digHole(position));
         }
-        return dispatch(buryHole(position));
 
+        return dispatch(buryHole(position));
     }
 
     const handleNewUserClick = async () => {
@@ -78,18 +79,19 @@ export const useGameBoard: IUseGameBoard = () => {
         }
     }
 
-    const isDigged = useCallback((position: IPosition) => !!holes.find(samePosition(position)), [holes]);
+    const isDigged = useCallback((position: IPosition) => !!holes
+        .find(samePosition(position)), [holes]);
 
     return {
         board,
         gridSize: gridSize || 5,
+        handleCheckClick,
         handleItemClick,
+        handleNewUserClick,
+        handleOpenModal: toggleModal,
+        holes,
         isDigged,
         isModalOpen,
-        handleOpenModal: toggleModal,
-        handleNewUserClick,
-        handleCheckClick,
-        holes,
         score,
         win,
 

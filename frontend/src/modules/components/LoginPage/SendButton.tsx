@@ -15,6 +15,7 @@ export const SendButton: React.FC<ISendButton> = ({
             type="submit"
             className="icon-button"
             aria-label="let's play"
+            role="submit-button"
         >
             <ArrowRightIcon />
         </IconButton>

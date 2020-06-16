@@ -4,10 +4,8 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "mocha --exit",
         "start": "node src/index.js",
-        "watch": "nodemon src/index.js",
-        "lint": "eslint --fix ."
+        "watch": "nodemon src/index.js"
     },
     "author": "",
     "license": "MIT",

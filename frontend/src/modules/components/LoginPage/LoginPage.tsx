@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 
 import { SendButton } from './SendButton';
 import { useLoginPage } from './useLoginPage';
-import { InfoScreen } from '../InfoScreen/InfoScreen';
 
 import './LoginPage.scss';
 

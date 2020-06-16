@@ -23,9 +23,10 @@ export const AboutGame: React.FC = () => {
                         <ul>
                             <li>The goal of the game is to find 3 treasures in minimum number of turns (number of turns will be the player score).</li>
                             <li>The board is of size 5x5</li>
-                            <li>At the beginning of the board is blank.</li>
+                            <li>At the beginning of the game, board is blank.</li>
                             <li>During each turn player can reveal up to 3 positions.</li>
                         </ul>
+                        <strong>If you want to continue the game in the new browser window, you need to copy your current URL path.</strong>
                     </p>
                 </DialogContentText>
             </DialogContent>

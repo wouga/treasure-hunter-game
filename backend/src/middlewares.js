@@ -11,14 +11,14 @@ const debugFileStore = (namespace) => ({
   namespace,
 });
 
+// to save data in a file instead of in memory, uncomment lines:
+// const userStore = new Keyv(debugFileStore('userStore'));
+// const gameStore = new Keyv(debugFileStore('gameStore'));
+// const scoreStore = new Keyv(debugFileStore('scoreStore'));
 
-const userStore = new Keyv(debugFileStore('userStore'));
-const gameStore = new Keyv(debugFileStore('gameStore'));
-const scoreStore = new Keyv(debugFileStore('scoreStore'));
-
-// const userStore = new Keyv({ namespace: 'userStore' });
-// const gameStore = new Keyv({ namespace: 'gameStore' });
-// const scoreStore = new Keyv({ namespace: 'scoreStore' });
+const userStore = new Keyv({ namespace: 'userStore' });
+const gameStore = new Keyv({ namespace: 'gameStore' });
+const scoreStore = new Keyv({ namespace: 'scoreStore' });
 
 function store(req, res, next) {
   req.userStore = userStore;

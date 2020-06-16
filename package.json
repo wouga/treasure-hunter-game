@@ -1,0 +1,27 @@
+{
+    "name": "treasure-hunter-game",
+    "version": "1.0.0",
+    "description": "",
+    "scripts": {
+        "frontend": "cd frontend && npm run start",
+        "backend": "cd backend && npm run start",
+        "start": "concurrently  \"npm run backend\" \"npm run frontend\"",
+        "install-frontend": "cd frontend && npm install",
+        "install-backend": "cd backend && npm install",
+        "install": "npm run install-frontend && npm run install-backend"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/wouga/treasure-hunter-game.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/wouga/treasure-hunter-game/issues"
+    },
+    "homepage": "https://github.com/wouga/treasure-hunter-game#readme",
+    "devDependencies": {
+        "concurrently": "^5.2.0"
+    }
+}

@@ -12,7 +12,7 @@ const prepareFormat = (scores) => scores.filter(({ score }) => !!score)
         : 0
     )))
   .map(({ score, name: userName }, place) => ({ score, name: userName, place: place + 1 }))
-  .slice(0, 9);
+  .slice(0, 10);
 
 router.get('/', async (req, res) => {
   const scores = await req.scoreStore.get('scores') || [];

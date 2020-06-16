@@ -12,12 +12,13 @@ export interface IWinScreen {
 
 export const WinScreen: React.FC<IWinScreen> = ({ score }) => {
     const {
-        handleStartAgainClick, scores
+        handleStartAgainClick, scores, handleNewUserClick,
     } = useWinScreen();
+
 
     return (
         <>
-            <h3>Congratulations.<br /> You won.</h3>
+            {score && (<h5>Your score: {score}</h5>)}
             <Button
                 onClick={handleStartAgainClick}
                 variant="outlined"
@@ -25,8 +26,15 @@ export const WinScreen: React.FC<IWinScreen> = ({ score }) => {
                 color="secondary"
             >
                 Start Again!
+            </Button><br />
+            <Button
+                onClick={handleNewUserClick}
+                variant="outlined"
+                size="large"
+                color="secondary"
+            >
+                New User
             </Button>
-            {score && (<h5>You scored {score} points</h5>)}
             {scores && (<ScoreBoard scores={scores} />)}
         </>
     )
